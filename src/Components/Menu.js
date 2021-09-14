@@ -20,36 +20,44 @@ const Menu = ({ edge, setEdge, numSites, setNumSites, onReGenButton }) => {
             <div className={open ? 'open button' : 'button'}>
                 <button onClick={() => setOpen(!open)}><FontAwesomeIcon className='arrow' icon='arrow-left'/></button>
             </div>
-            <ul className='menu'>
-                <li className='reGen'>
-                    <button onClick={() => reGen()} > Go </button>
-                </li>
-                <li className='details'>
-                    <label >Détails : </label>
-                    <input 
-                        type='number' 
-                        value={numSites} 
-                        onChange={(e) => {
-                            if(e.target.value === '') { setNumSites(2) }
-                            else if(e.target.value > 10000) { setNumSites(10000) }
-                            else if(e.target.value < 2) { setNumSites(2) }
-                            else { setNumSites(e.target.value) }
-                        }} 
-                    />
-                    <input 
-                        type='range' 
-                        min={2} 
-                        max={10000} 
-                        step={1} 
-                        defaultValue={numSites} 
-                        onChange={(e) => setNumSites(parseInt(e.target.value))}
-                    />
-                </li>
-                <li className='edge'>
-                    <input name='Edge' type='checkbox' checked={edge} onChange={() => setEdge(!edge)} />
-                    <label htmlFor='Edge'> Edge</label>
-                </li>
-            </ul>
+            <div className='menu'>
+                <div className='gen' >
+                    <div className='reGen'>
+                        <button onClick={() => reGen()} > Générer </button>
+                    </div>
+                    <div className='details'>
+                        <label >Détails : </label>
+                        <div>
+                            <div onClick={() => setNumSites(numSites - 1)} ><FontAwesomeIcon icon='minus' /></div>
+                            <input 
+                                type='number' 
+                                value={numSites} 
+                                onChange={(e) => {
+                                    if(e.target.value === '') { setNumSites(2) }
+                                    else if(e.target.value > 10000) { setNumSites(10000) }
+                                    else if(e.target.value < 2) { setNumSites(2) }
+                                    else { setNumSites(e.target.value) }
+                                }} 
+                            />
+                            <div onClick={() => setNumSites(numSites + 1)} ><FontAwesomeIcon icon='plus' /></div>
+                        </div>
+                        <input 
+                            type='range' 
+                            min={2} 
+                            max={10000} 
+                            step={1} 
+                            defaultValue={numSites} 
+                            onChange={(e) => setNumSites(parseInt(e.target.value))}
+                        />
+                    </div>
+                </div>
+                <div className='display'>
+                    <div className='edge'>
+                        <input name='Edge' type='checkbox' checked={edge} onChange={() => setEdge(!edge)} />
+                        <label htmlFor='Edge'> Edge</label>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
