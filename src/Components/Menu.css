@@ -1,0 +1,62 @@
+.menuContainer {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    position: fixed;
+    top: 0;
+    right: -340px;
+    height: 100vh;
+    transition: linear 0.5s;
+}
+
+.menu {
+    margin-top: 0;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height: 100%;
+    width: 300px;
+    background-color: #282828;
+}
+
+.menuContainer.open {
+    right: 0;
+}
+
+/*.radius-inverted {
+    height: 100%;
+    width: 100%;
+    background-color: red;
+    border-top-right-radius: 15px;
+}
+.radius-inverted::before {
+    content: '';
+    height: 100%;
+    width: 100%;
+    border-top-right-radius: 15px;
+    background-color: #282828;
+}*/
+
+
+.button button {
+    margin-top: 10px;
+    border: none;
+    background: none;
+    background-color: #282828;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    color: white;
+    font-size: xx-large;
+}
+
+.button.open > button > .arrow {
+    transform: rotateZ(0.5turn);
+    transition: 0.5s;
+}
+
+.button.open > button > .arrow {
+    color: white;
+    font-size: xx-large;
+    transform: rotateZ(0.5turn);
+    transition: 0.5s;
+}
