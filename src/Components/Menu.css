@@ -59,6 +59,9 @@
     flex: 1;
     flex-direction: column;
     margin: 5px;
+    border: dashed #0004 3px;
+    border-radius: 0px;
+    padding: 5px;
 }
 
 .reGen {
@@ -139,11 +142,19 @@
 .display {
     display: flex;
     flex: 1;
-    flex-direction: column;
-    border: solid blueviolet 5px;
+    align-items: center;
+    margin: 5px;
+    padding: 5px;
+    border: dashed #0004 3px;
+    border-radius: 0px;
+    flex-wrap: wrap;
 }
 
 .edge {
-    display: flex;
-    flex: 1;
+    align-items: center;
+    color: white;
+    background-color: #0004;
+    border-radius: 100px;
+    padding: 5px;
+    margin: 5px;
 }
