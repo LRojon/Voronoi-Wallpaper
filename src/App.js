@@ -23,21 +23,25 @@ function App() {
     
     const [numSites, setNumSites] = useState(15)
 
-    for (let i = 0; i < numSites; i++) { sites.push(new Point(Math.floor(Math.random() * area.xr), Math.floor(Math.random() * area.yb))) } // Fill sites
-    const [d, setD] = useState(voronoi.compute(sites, area))
+    const [d, setD] = useState(null)
     const [edge, setEdge] = useState(true)
 
-    const restart = () => {
+    const gen = () => {
+
         voronoi.recycle(d);
         sites = []
-        for (let i = 0; i < numSites; i++) { sites.push(new Point(Math.floor(Math.random() * area.xr), Math.floor(Math.random() * area.yb))) } // Fill sites
+        for (let i = 0; i < numSites; i++) { 
+            sites.push(new Point(Math.floor(Math.random() * area.xr), Math.floor(Math.random() * area.yb))) 
+        }
         setD(voronoi.compute(sites, area))
     }
+
+    if(!d) { gen() }
 
     return (
         <div className="App">
             <Canvas diagram={d} edge={edge} width={area.xr} height={area.yb} className='canvas' />
-            <Menu onReGenButton={() => restart()} edge={edge} setEdge={setEdge} numSites={numSites} setNumSites={setNumSites}  />
+            <Menu onReGenButton={(details) => gen(details)} edge={edge} setEdge={setEdge} numSites={numSites} setNumSites={setNumSites}  />
         </div>
     );
 }

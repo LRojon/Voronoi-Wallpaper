@@ -10,21 +10,42 @@ const Menu = ({ edge, setEdge, numSites, setNumSites, onReGenButton }) => {
 
     const [open, setOpen] = useState(false)
 
+    const reGen = () => {
+        onReGenButton(numSites); 
+        setOpen(false)
+    }
+
     return (
         <div className={open ? 'open menuContainer' : 'menuContainer'}>
             <div className={open ? 'open button' : 'button'}>
-                <b></b>
                 <button onClick={() => setOpen(!open)}><FontAwesomeIcon className='arrow' icon='arrow-left'/></button>
-                <b></b>
             </div>
             <ul className='menu'>
-                <li>
-                    <input type='number' value={numSites} onChange={(e) => setNumSites(e.target.value)} />
+                <li className='reGen'>
+                    <button onClick={() => reGen()} > Go </button>
                 </li>
-                <li>
-                    <button onClick={() => onReGenButton()} >Restart</button>
+                <li className='details'>
+                    <label >Détails : </label>
+                    <input 
+                        type='number' 
+                        value={numSites} 
+                        onChange={(e) => {
+                            if(e.target.value === '') { setNumSites(2) }
+                            else if(e.target.value > 10000) { setNumSites(10000) }
+                            else if(e.target.value < 2) { setNumSites(2) }
+                            else { setNumSites(e.target.value) }
+                        }} 
+                    />
+                    <input 
+                        type='range' 
+                        min={2} 
+                        max={10000} 
+                        step={1} 
+                        defaultValue={numSites} 
+                        onChange={(e) => setNumSites(parseInt(e.target.value))}
+                    />
                 </li>
-                <li>
+                <li className='edge'>
                     <input name='Edge' type='checkbox' checked={edge} onChange={() => setEdge(!edge)} />
                     <label htmlFor='Edge'> Edge</label>
                 </li>

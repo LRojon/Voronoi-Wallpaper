@@ -4,42 +4,22 @@
     flex: 1;
     position: fixed;
     top: 0;
-    right: -340px;
+    right: -540px;
     height: 100vh;
     transition: linear 0.5s;
-}
-
-.menu {
-    margin-top: 0;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    height: 100%;
-    width: 300px;
-    background-color: #282828;
 }
 
 .menuContainer.open {
     right: 0;
 }
 
-/*.radius-inverted {
-    height: 100%;
-    width: 100%;
-    background-color: red;
-    border-top-right-radius: 15px;
+.button {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
 }
-.radius-inverted::before {
-    content: '';
-    height: 100%;
-    width: 100%;
-    border-top-right-radius: 15px;
-    background-color: #282828;
-}*/
-
 
 .button button {
-    margin-top: 10px;
     border: none;
     background: none;
     background-color: #282828;
@@ -50,7 +30,7 @@
 }
 
 .button.open > button > .arrow {
-    transform: rotateZ(0.5turn);
+    transform: rotateZ(-0.5turn);
     transition: 0.5s;
 }
 
@@ -59,4 +39,39 @@
     font-size: xx-large;
     transform: rotateZ(0.5turn);
     transition: 0.5s;
+}
+
+
+.menu {
+    margin-top: 0;
+    padding-top: 10px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height: 100%;
+    width: 500px;
+    background-color: #282828;
+    list-style: none;
+}
+
+.menu li {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu li > * {
+    flex: 1;
+    margin: 5px 30px 5px 5px;
+}
+
+.menu li > input[type=number] {
+    width: 25%;
+    background: none;
+    border: none;
+    background-color: #0004;
+    border-radius: 100px;
+    text-align: center;
+    -moz-appearance: textfield;
 }
