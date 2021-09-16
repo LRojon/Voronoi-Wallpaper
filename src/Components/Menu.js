@@ -2,12 +2,12 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
-import { Point, windowHeight } from '../App'
+import { Color, Point, windowHeight } from '../App'
 import './Menu.css'
 
 library.add(fas)
 
-const Menu = ({ edge, setEdge, numSites, setNumSites, onReGenButton, area, setArea }) => {
+const Menu = ({ edge, setEdge, numSites, setNumSites, onReGenButton, area, setArea, backgroundColor, setBackgroundColor, gradient, setGradient, colorX, setColorX, colorY, setColorY, inverted, setInverted, intensity, setIntensity }) => {
 
     const [open, setOpen] = useState(false)
 
@@ -29,18 +29,20 @@ const Menu = ({ edge, setEdge, numSites, setNumSites, onReGenButton, area, setAr
                     <div className='details'>
                         <label >Détails : </label>
                         <div>
-                            <div onClick={() => setNumSites(numSites - 1)} ><FontAwesomeIcon icon='minus' /></div>
+                            <div onClick={() => numSites > 2 ? setNumSites(numSites - 1) : null} ><FontAwesomeIcon icon='minus' /></div>
                             <input 
                                 type='number' 
                                 value={numSites} 
                                 onBlur={(e) => {
                                     if(e.target.value === '') { setNumSites(2) }
-                                    else if(e.target.value > 10000) { setNumSites(10000) }
                                     else if(e.target.value < 2) { setNumSites(2) }
                                 }}
-                                onChange={(e) => setNumSites(e.target.value)}
+                                onChange={(e) => {
+                                    if(e.target.value > 10000) { setNumSites(10000) }
+                                    else { setNumSites(e.target.value) }
+                                }}
                             />
-                            <div onClick={() => setNumSites(numSites + 1)} ><FontAwesomeIcon icon='plus' /></div>
+                            <div onClick={() => numSites < 10000 ? setNumSites(numSites + 1) : null} ><FontAwesomeIcon icon='plus' /></div>
                         </div>
                         <input 
                             type='range' 
@@ -120,9 +122,109 @@ const Menu = ({ edge, setEdge, numSites, setNumSites, onReGenButton, area, setAr
                     </div>
                 </div>
                 <div className='display'>
-                    <div className='edge'>
-                        <input name='Edge' type='checkbox' checked={edge} onChange={() => setEdge(!edge)} />
-                        <label htmlFor='Edge'> Edge</label>
+                    <div className='up'>
+                        <div className="colorGroup">
+                            <span>Couleurs</span>
+                            <div className="color">
+                                <label>Fond : </label>
+                                <span style={{backgroundColor: backgroundColor}}>
+                                    <input onChange={(e) => setBackgroundColor(e.target.value)} defaultValue={backgroundColor} type='color' />
+                                </span>
+                            </div>
+                            <div className='color'>
+                                <label>Horizontal : </label>
+                                <span style={{backgroundColor: colorX.hex}} >
+                                    <input onChange={(e) => setColorX(Color.fromHex(e.target.value))} defaultValue={colorX.hex} type='color' />
+                                </span>
+                            </div>
+                            <div className='color'>
+                                <label>Vertical : </label>
+                                <span style={{backgroundColor: colorY.hex}}>
+                                    <input onChange={(e) => setColorY(Color.fromHex(e.target.value))} defaultValue={colorY.hex} type='color' />
+                                </span>
+                            </div>
+                        </div>
+                        <div className="options">
+                            <span>Options</span>
+                            <div className='edge'>
+                                <input name='Bords' type='checkbox' checked={edge} onChange={() => setEdge(!edge)} />
+                                <label htmlFor='Bords'> Bords</label>
+                            </div>
+                            
+                            <div className='edge'>
+                                <select value={gradient} onChange={(e) => setGradient(e.target.value)} >
+                                    <option value='none'>Pas de dégradé</option>
+                                    <option value='gradient'>Dégradé</option>
+                                    <option value='inverted'>Dégradé inversé</option>
+                                </select>
+                            </div>
+
+                            <div className='edge'>
+                                <input name='Inverted' type='checkbox' checked={inverted} onChange={() => setInverted(!inverted)} />
+                                <label htmlFor='Inverted'> Inversé</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="intensity">
+                        <span>Intensité</span>
+                        <div id='IntensityX' className='details'>
+                            <label >Horizontale : </label>
+                            <div>
+                                <div onClick={() => intensity.x - 0.1 > 0.1 ? setIntensity(new Point(intensity.x - 0.1, intensity.y)) : null} ><FontAwesomeIcon icon='minus' /></div>
+                                <input 
+                                    type='number'
+                                    value={Math.round(intensity.x * 10) / 10}
+                                    step={0.1}
+                                    min={0.1}
+                                    onBlur={(e) => {
+                                        if(e.target.value === '') { setIntensity(new Point(0.1, intensity.y)) }
+                                        else if(e.target.value < 0.1) { setIntensity(new Point(0.1, intensity.y)) }
+                                    }}
+                                    onChange={(e) => {
+                                        if(e.target.value > 10) { setIntensity(new Point(10, intensity.y)) }
+                                        else { setIntensity(new Point(e.target.value, intensity.y)) }
+                                    }}
+                                />
+                                <div onClick={() => intensity.x < 10 ? setIntensity(new Point(parseFloat(intensity.x + 0.1), intensity.y)) : null} ><FontAwesomeIcon icon='plus' /></div>
+                            </div>
+                            <input 
+                                type='range'
+                                min={0.1}
+                                max={10}
+                                step={0.1}
+                                defaultValue={intensity.x}
+                                onChange={(e) => setIntensity(new Point(e.target.value, intensity.y))}
+                            />
+                        </div>
+                        <div id='IntensityY' className='details'>
+                            <label >Verticale : </label>
+                            <div>
+                                <div onClick={() => intensity.y - 0.1 > 0.1 ? setIntensity(new Point(intensity.x, intensity.y - 0.1)) : null} ><FontAwesomeIcon icon='minus' /></div>
+                                <input 
+                                    type='number'
+                                    value={Math.round(intensity.y * 10) / 10}
+                                    step={0.1}
+                                    min={0.1}
+                                    onBlur={(e) => {
+                                        if(e.target.value === '') { setIntensity(new Point(intensity.x, 0.1)) }
+                                        else if(e.target.value < 0.1) { setIntensity(new Point(intensity.x, 0.1)) }
+                                    }}
+                                    onChange={(e) => {
+                                        if(e.target.value > 10) { setIntensity(new Point(intensity.x, 10)) }
+                                        else { setIntensity(new Point(intensity.x, e.target.value)) }
+                                    }}
+                                />
+                                <div onClick={() => intensity.y < 10 ? setIntensity(new Point(intensity.x, parseFloat(intensity.y + 0.1))) : null} ><FontAwesomeIcon icon='plus' /></div>
+                            </div>
+                            <input 
+                                type='range'
+                                min={0.1}
+                                max={10}
+                                step={0.1}
+                                defaultValue={intensity.y}
+                                onChange={(e) => setIntensity(new Point(intensity.x, e.target.value))}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
