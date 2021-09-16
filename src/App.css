@@ -4,3 +4,8 @@ body {
 button {
     margin-left: 5px;
 }
+
+canvas {
+    border: solid 1px white;
+    border-radius: 5px;
+}

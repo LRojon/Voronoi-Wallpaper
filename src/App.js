@@ -3,21 +3,24 @@ import Voronoi from 'voronoi';
 import { useRef, useEffect, useState } from 'react'
 import Menu from './Components/Menu';
 
-class Point {
+export class Point {
     constructor(x, y) {
         this.x = x
         this.y = y
     }
 }
 
+export const windowHeight = Math.round(window.innerHeight - 0.006 * window.innerHeight)
+const windowWidth = Math.round((16 / 9) * windowHeight)
+
 function App() {
 
     const voronoi = new Voronoi()
-    const area = {
+    let box = {
         xl:0,
-        xr: window.innerWidth,
+        xr: windowWidth,
         yt: 0,
-        yb: window.innerHeight - 0.005 * window.innerHeight
+        yb: windowHeight
     }
     let sites = []
     
@@ -25,23 +28,34 @@ function App() {
 
     const [d, setD] = useState(null)
     const [edge, setEdge] = useState(true)
+    const [area, setArea] = useState(new Point(box.xr, box.yb))
 
     const gen = () => {
+        box.xr = area.x
+        box.yb = area.y
 
         voronoi.recycle(d);
         sites = []
         for (let i = 0; i < numSites; i++) { 
-            sites.push(new Point(Math.floor(Math.random() * area.xr), Math.floor(Math.random() * area.yb))) 
+            sites.push(new Point(Math.floor(Math.random() * box.xr), Math.floor(Math.random() * box.yb))) 
         }
-        setD(voronoi.compute(sites, area))
+        setD(voronoi.compute(sites, box))
     }
 
     if(!d) { gen() }
 
     return (
         <div className="App">
-            <Canvas diagram={d} edge={edge} width={area.xr} height={area.yb} className='canvas' />
-            <Menu onReGenButton={(details) => gen(details)} edge={edge} setEdge={setEdge} numSites={numSites} setNumSites={setNumSites}  />
+            <Canvas diagram={d} edge={edge} width={area.x} height={area.y} className='canvas' />
+            <Menu 
+                onReGenButton={(details) => gen(details)} 
+                edge={edge} 
+                setEdge={setEdge} 
+                numSites={numSites} 
+                setNumSites={setNumSites}
+                area={area}
+                setArea={setArea}
+            />
         </div>
     );
 }
@@ -58,8 +72,8 @@ const Canvas = ({diagram, width, height, className, edge}) => {
         let colors = []
         let center = new Point(canvas.width / 2, canvas.height / 2)
         diagram.cells.forEach(cell => {
-            let b = (255 - Math.abs(cell.site.x - center.x) / center.x * 400)
-            let g = (255 - Math.abs(cell.site.y - center.y) / center.y * 400)
+            let b = (255 - Math.abs(cell.site.x - center.x) / center.x * 255)
+            let g = (255 - Math.abs(cell.site.y - center.y) / center.y * 255)
             let r = (b + g) / 2
             colors.push({
                 site: cell.site.voronoiId,

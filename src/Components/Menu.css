@@ -78,9 +78,10 @@
     cursor: pointer;
     border-radius: 100px;
     font-size: xx-large;
+    transition: 0.2s;
 }
 .reGen > button:hover {
-    border: solid white 3px;
+    border: solid white 5px;
 }
 
 .details {
@@ -133,6 +134,67 @@
     appearance: textfield;
 }
 .details > input[type=range] {
+    display: flex;
+    flex: 2;
+    margin: 10px;
+}
+
+.area {
+    display: flex;
+    flex: 4;
+    align-items: center;
+    flex-direction: column;
+}
+div[class^='area-'] {
+    display: flex;
+    flex:1;
+    align-items: center;
+}
+div[class^='area-'] > label {
+    display: flex;
+    flex: 1;
+    font-size: larger;
+    color: white;
+    width: 25%;
+    justify-content: center;
+}
+div[class^='area-'] > div {
+    display: flex;
+    flex: 1;
+    background-color: #0004;
+    border-radius: 100px;
+    justify-content: center;
+}
+div[class^='area-'] > div div {
+    background: none;
+    border: none;
+    background-color: #0004;
+    color: white;
+    font-size: large;
+    vertical-align: middle;
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+}
+div[class^='area-'] > div  div:first-child {
+    border-radius: 100px 0px 0px 100px;
+}
+div[class^='area-'] > div  div:last-child {
+    border-radius: 0px 100px 100px 0px;
+}
+div[class^='area-'] > div > input[type=number] {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: center;
+    font-size: larger;
+    color: white;
+
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+div[class^='area-'] > input[type=range] {
     display: flex;
     flex: 2;
     margin: 10px;
